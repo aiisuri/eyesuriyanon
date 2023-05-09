@@ -1,0 +1,106 @@
+// Particle class to represent individual particles
+class Particle {
+  PVector pos; // Position vector
+  PVector vel; // Velocity vector
+  color col; // Color of particle
+  float size; // Size of particle
+  
+  // Constructor function to initialize particle properties
+  Particle(PVector p, PVector v, color c, float s) {
+    pos = p;
+    vel = v;
+    col = c;
+    size = s;
+  }
+  
+  // Update function to update particle position
+  void update() {
+    pos.add(vel);
+  }
+  
+  // Display function to draw particle as a sphere
+  void display() {
+    pushMatrix();
+    translate(pos.x, pos.y, pos.z);
+    fill(col);
+    sphere(size);
+    popMatrix();
+  }
+  
+  // Function to apply force to particle based on mouse position
+  void applyForce() {
+    PVector mousePos = new PVector(mouseX, mouseY, 0);
+    PVector dir = PVector.sub(mousePos, pos);
+    float distance = dir.mag();
+    dir.normalize();
+    float strength = (1 / distance) * 10000;
+    vel.add(dir.mult(strength));
+  }
+}
+
+// List to hold all particles in the system
+ArrayList<Particle> particles;
+
+// Variables to control particle system properties
+int numParticles = 100;
+float growthRate = 0.01;
+boolean grow = false;
+color particleColor = color(255);
+
+void setup() {
+  size(800, 600, P3D);
+  background(0);
+  particles = new ArrayList<Particle>();
+  for (int i = 0; i < numParticles; i++) {
+    PVector pos = new PVector(random(width), random(height), random(-500, 500));
+    PVector vel = new PVector(random(-1, 1), random(-1, 1), random(-1, 1));
+    float size = random(2, 10);
+    particles.add(new Particle(pos, vel, particleColor, size));
+  }
+}
+
+void draw() {
+  background(0);
+  
+  // Grow particles if "a" is pressed
+  if (grow) {
+    for (Particle p : particles) {
+      p.size += growthRate;
+    }
+  }
+  
+  // Move particles based on mouse position
+  for (Particle p : particles) {
+    p.applyForce();
+    p.update();
+    p.display();
+  }
+}
+
+void keyPressed() {
+  if (key == 'a') {
+    grow = true;
+  }
+  if (key == 's') {
+    numParticles += 10;
+    particles.add(new Particle(new PVector(random(width), random(height), random(-500, 500)), new PVector(random(-1, 1), random(-1, 1), random(-1, 1)), particleColor, random(2, 10)));
+  }
+  if (key == 'd') {
+    if (numParticles > 0) {
+      numParticles -= 10;
+      particles.remove(particles.size() - 1);
+    }
+  }
+  if (key == 'f') {
+    particleColor = color(random(255), random(255), random(255));
+    for (Particle p : particles) {
+      p.col = particleColor;
+    }
+  }
+}
+
+void keyReleased() {
+  if (key == 'a') {
+    grow = false;
+  }
+}
