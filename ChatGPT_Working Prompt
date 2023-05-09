@@ -1,0 +1,18 @@
+void setup() {
+  size(500, 500); // set the size of the canvas
+  background(255); // set the background color to white
+  strokeWeight(8); // set the thickness of the line
+  stroke(0); // set the color of the line to black
+}
+
+void draw() {
+  if (mousePressed && (mouseButton == LEFT)) { // check if the left mouse button is pressed
+    line(mouseX, mouseY, pmouseX, pmouseY); // draw a line from previous mouse position to current mouse position
+  }
+}
+
+void keyPressed() {
+  if (key == ' ') { // check if the spacebar is pressed
+    background(255); // clear the canvas by setting the background color to white
+  }
+}
