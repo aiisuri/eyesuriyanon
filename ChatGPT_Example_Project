@@ -1,0 +1,21 @@
+int lastX, lastY; // keep track of the last cursor position
+
+void setup() {
+  size(500, 500); // set the canvas size
+  background(255); // set the background color to white
+  stroke(0); // set the stroke color to black
+  strokeWeight(3); // set the stroke weight to 3 pixels
+  lastX = mouseX; // initialize the last cursor position
+  lastY = mouseY;
+}
+
+void draw() {
+  // check if the cursor has moved
+  if (mouseX != lastX || mouseY != lastY) {
+    // draw a line from the last cursor position to the current cursor position
+    line(lastX, lastY, mouseX, mouseY);
+    // update the last cursor position
+    lastX = mouseX;
+    lastY = mouseY;
+  }
+}
