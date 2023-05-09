@@ -6,3 +6,6 @@ GITS - is a Max patch created with 3 main functions
 1. findbound is used to create the visual effect 
 2. findbound is used to find the max & min RGB values then scaled it into MIDI 
 3. jit.rgb2luma is used to scan each pixel line and convert it into audio waveform
+
+ChatGPT Example Project is code created by ChatGPT using the prompt
+"Create this in Java for Processing by drawing a line when the cursor moves from one position to another"
