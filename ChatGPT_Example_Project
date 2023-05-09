@@ -1,4 +1,5 @@
 int lastX, lastY; // keep track of the last cursor position
+boolean lineDrawn = false; // keep track of whether the line has been drawn or not
 
 void setup() {
   size(500, 500); // set the canvas size
@@ -13,9 +14,25 @@ void draw() {
   // check if the cursor has moved
   if (mouseX != lastX || mouseY != lastY) {
     // draw a line from the last cursor position to the current cursor position
-    line(lastX, lastY, mouseX, mouseY);
+    if (!lineDrawn) {
+      line(lastX, lastY, mouseX, mouseY);
+      lineDrawn = true;
+    }
     // update the last cursor position
     lastX = mouseX;
     lastY = mouseY;
+  }
+}
+
+void keyPressed() {
+  if (key == ' ') { // check if the spacebar is pressed
+    if (lineDrawn) {
+      // remove the line by drawing over it with the background color
+      background(255);
+      // reset the cursor position and lineDrawn flag
+      lastX = mouseX;
+      lastY = mouseY;
+      lineDrawn = false;
+    }
   }
 }
